@@ -16,20 +16,20 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @GetMapping("create")
+    @GetMapping("add")
     public String renderCreateStudentForm(Model model){
         model.addAttribute("title", "Create Student");
         model.addAttribute(new Student());
         model.addAttribute("categories", studentRepository.findAll());
-        return "student/create";
+        return "student/add";
     }
 
-    @PostMapping("create")
+    @PostMapping("add")
     public String createEvent(@ModelAttribute @Valid Student newEvent, Errors errors, Model model){
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create Student");
-            return "students/create";
+            return "students/add";
         }
         studentRepository.save(newEvent);
         return "redirect:/students";
