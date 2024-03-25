@@ -20,18 +20,18 @@ public class StudentController {
     public String renderCreateStudentForm(Model model){
         model.addAttribute("title", "Create Student");
         model.addAttribute(new Student());
-        model.addAttribute("categories", studentRepository.findAll());
+        model.addAttribute("students", studentRepository.findAll());
         return "student/add";
     }
 
     @PostMapping("add")
-    public String createEvent(@ModelAttribute @Valid Student newEvent, Errors errors, Model model){
+    public String createEvent(@ModelAttribute @Valid Student newStudent, Errors errors, Model model){
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Create Student");
+            model.addAttribute("title", "Add Student");
             return "students/add";
         }
-        studentRepository.save(newEvent);
+        studentRepository.save(newStudent);
         return "redirect:/students";
 
     }
@@ -49,6 +49,25 @@ public class StudentController {
         {
             for (int id : studentIds) {
                 studentRepository.deleteById(id);
+            }
+        }
+        return "redirect:/students";
+
+    }
+
+    @GetMapping ("search")
+    public String displaySearchStudentForm (Model model){
+        model.addAttribute("title", "Search Student");
+        model.addAttribute("Students", studentRepository.findAll());
+        return "student/search";
+    }
+
+    @PostMapping ("search")
+    public String processSearchStudent(@RequestParam(required = false) int[] studentId, Model model){
+        if (studentId != null)
+        {
+            for (int id : studentId) {
+                model.addAttribute("Student ID", studentRepository.findById(id));
             }
         }
         return "redirect:/students";
