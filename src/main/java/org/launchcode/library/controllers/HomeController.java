@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class HomeController {
 
-    @GetMapping
+    @GetMapping("library")
     public String index () {
-        return "index";
+        return "library/index";
     }
 }

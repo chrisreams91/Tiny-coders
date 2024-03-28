@@ -3,13 +3,13 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 
-<header th:replace="fragments :: header1"></header>
+<header th:replace="fragments :: header2"></header>
 
-<div class="container body-content">
+<!--div class="container body-content"-->
 
-   <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
+   <!--h1 th:text="${#strings.capitalizeWords(title)}"></h1-->
 
-   <form th:action="@{/search/results}" method = "post">
+   <form th:action="@{/students/search/results}" method = "post">
       <h2>Search by:</h2>
 
       <p>

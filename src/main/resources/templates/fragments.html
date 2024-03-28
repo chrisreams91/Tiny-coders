@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:fragment="head">
    <meta charset="UTF-8"/>
    <title>Learner's Library</title>
@@ -9,14 +9,26 @@
 </head>
 <body>
 
-<nav th:fragment="header1">
-   <h1 th:text="${title}">Learner's Library</h1>
+<nav th:fragment="header2">
+   <h1 th:text="${title}">Student Management</h1>
    <ul class="nav">
-      <li class="nav-item"><a class="nav-link" href="/library/user">User Management</a></li>
-      <li class="nav-item"><a class="nav-link" href="/library/book">Book Management</a></li>
-      <li class="nav-item"><a class="nav-link" href="/library/checkout">Checkout Book</a></li>
-      <li class="nav-item"><a class="nav-link" href="/library/checkin">Checkin Book</a></li>
-      <li class="nav-item"><a class="nav-link" href="/library/student">Student Management</a></li>
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/students/add">Add Student</a></li>
+      <li class="nav-item"><a class="nav-link" href="/students/delete">Delete Student</a></li>
+      <li class="nav-item"><a class="nav-link" href="/students/search">Search Student</a></li>
+   </ul>
+</nav>
+</body>
+
+<body>
+<nav th:fragment="header1">
+   <h1 th:text="${title}"></h1>
+   <ul class="nav">
+      <li class="nav-item"><a class="nav-link" href="/user">User Management</a></li>
+      <li class="nav-item"><a class="nav-link" href="/book">Book Management</a></li>
+      <li class="nav-item"><a class="nav-link" href="/checkout">Checkout Book</a></li>
+      <li class="nav-item"><a class="nav-link" href="/checkin">Checkin Book</a></li>
+      <li class="nav-item"><a class="nav-link" href="/students">Student Management</a></li>
    </ul>
 </nav>
 

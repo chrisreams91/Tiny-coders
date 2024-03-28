@@ -9,6 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+import static org.launchcode.library.controllers.ListController.columnChoices;
+
 @Controller
 @RequestMapping ("students")
 public class StudentController {
@@ -16,12 +20,24 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
+    @GetMapping
+    public String displayAllStudents(@RequestParam(required=false) Integer studentId, Model model) {
+        model.addAttribute("title", "Student Management");
+        if (studentId == null) {
+            model.addAttribute("students", studentRepository.findAll());
+        } else {
+            model.addAttribute("students", studentRepository.findById(studentId));
+            }
+        return "students/index";
+    }
+
+
     @GetMapping("add")
     public String renderCreateStudentForm(Model model){
         model.addAttribute("title", "Create Student");
         model.addAttribute(new Student());
-        model.addAttribute("students", studentRepository.findAll());
-        return "student/add";
+ //       model.addAttribute("students", studentRepository.findAll());
+        return "students/add";
     }
 
     @PostMapping("add")
@@ -39,15 +55,15 @@ public class StudentController {
     @GetMapping ("delete")
     public String displayDeleteStudentForm (Model model){
         model.addAttribute("title", "Delete Student");
-        model.addAttribute("events", studentRepository.findAll());
-        return "student/delete";
+        model.addAttribute("students", studentRepository.findAll());
+        return "students/delete";
     }
 
     @PostMapping ("delete")
-    public String processDeleteEvent(@RequestParam(required = false) int[] studentIds){
-        if (studentIds != null)
+    public String processDeleteStudent(@RequestParam(required = false) int[] StudentIds){
+        if (StudentIds != null)
         {
-            for (int id : studentIds) {
+            for (int id : StudentIds) {
                 studentRepository.deleteById(id);
             }
         }
@@ -55,22 +71,36 @@ public class StudentController {
 
     }
 
-    @GetMapping ("search")
-    public String displaySearchStudentForm (Model model){
-        model.addAttribute("title", "Search Student");
-        model.addAttribute("Students", studentRepository.findAll());
-        return "student/search";
+    @PostMapping ("update")
+    public String updateStudents(@RequestParam(required=false) Model model) {
+//        Student newStudent1 = new Student();
+//        model.addAttribute("title", "Student Management");
+//        if (studentId == null) {
+//            model.addAttribute("students", studentRepository.findAll());
+//        } else {
+//            newStudent1.setFirstname() = newStudent.getFirstname();
+//
+//            studentRepository.findById(studentId).gfirstname)
+//            model.addAttribute("students", studentRepository.findById(studentId));
+//        }
+        return "students/index";
     }
-
-    @PostMapping ("search")
-    public String processSearchStudent(@RequestParam(required = false) int[] studentId, Model model){
+//    @RequestMapping("search")
+//    public String search(Model model) {
+//        model.addAttribute("columns", columnChoices);
+////        model.addAttribute("title", "Search Student");
+////        model.addAttribute("Students", studentRepository.findAll());
+//        return "search";
+//    }
+    @PostMapping ("add/view")
+    public String processViewStudent(@RequestParam(required = false) int[] studentId, Model model){
         if (studentId != null)
         {
             for (int id : studentId) {
                 model.addAttribute("Student ID", studentRepository.findById(id));
             }
         }
-        return "redirect:/students";
+        return "students/search";
 
     }
 }

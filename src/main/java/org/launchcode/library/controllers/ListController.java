@@ -22,17 +22,17 @@ public class ListController {
     public ListController () {
 
         columnChoices.put("id", "ID");
- //       columnChoices.put("studentfn", "Student First Name");
- //       columnChoices.put("studentln", "Student Last Name");
+  //      columnChoices.put("studentfn", "Student First Name");
+  //      columnChoices.put("studentln", "Student Last Name");
 
     }
 
     @RequestMapping("")
     public String list(Model model) {
         // Pass employer and skill data to the view
-        model.addAttribute("id", studentRepository.findAll());
+        model.addAttribute("students", studentRepository.findAll());
 
-        return "search";
+        return "list";
     }
 
 }
