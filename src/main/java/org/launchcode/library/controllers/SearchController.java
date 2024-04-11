@@ -28,12 +28,40 @@ public class SearchController {
         return "students/search";
     }
 
-    @PostMapping("results")
-    public String processSearchStudent(Model model, @RequestParam String searchType, @RequestParam Integer searchTerm) {
-        if (searchTerm != null) {
-            model.addAttribute("title", "Search Student");
-            model.addAttribute("Students", studentRepository.findById(searchTerm));
+//
+
+    @PostMapping("update")
+    public String displayStudents(@RequestParam(required = false) Integer searchTerm, Model model) {
+        model.addAttribute("title", "Student Management");
+        Iterable<Student> students;
+        System.out.println(searchTerm);
+        if (searchTerm == null) {
+            students = studentRepository.findAll();
+            model.addAttribute("students", students);
+            return "students/index";
+        } else {
+            Optional<Student> optionalStudent = studentRepository.findById(searchTerm);
+            Student student = optionalStudent.get();
+            //        model.addAttribute("students1", student);
+            model.addAttribute("studentId", student.getId());
+            model.addAttribute("studentfirstname", student.getFirstname());
+            model.addAttribute("studentlastname", student.getLastname());
+            model.addAttribute("studentcontactemail", student.getContactEmail());
+            //        return "students/index";
+            return "students/update";
         }
-        return "students/update";
     }
+
+//    @PostMapping("results")
+//    public String processSearchStudent(Model model, @RequestParam String searchType, @RequestParam Integer searchTerm) {
+//        Optional<Student> students;
+//        if (searchTerm != null) {
+//            model.addAttribute("title", "Search Student");
+//            students = studentRepository.findById(searchTerm);
+//            model.addAttribute("Students", students);
+//        }
+//        return "students/update";
+//    }
+
+
 }

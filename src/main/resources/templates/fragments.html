@@ -18,6 +18,14 @@
       <li class="nav-item"><a class="nav-link" href="/students/search">Search Student</a></li>
    </ul>
 </nav>
+<nav th:fragment="header3">
+   <h1 th:text="${title}">Book Information</h1>
+   <ul class="nav">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/booksinfo/add">Request Book</a></li>
+      <li class="nav-item"><a class="nav-link" href="/booksinfo/delete">Delete Book Request</a></li>
+   </ul>
+</nav>
 </body>
 
 <body>
@@ -29,6 +37,7 @@
       <li class="nav-item"><a class="nav-link" href="/checkout">Checkout Book</a></li>
       <li class="nav-item"><a class="nav-link" href="/checkin">Checkin Book</a></li>
       <li class="nav-item"><a class="nav-link" href="/students">Student Management</a></li>
+      <li class="nav-item"><a class="nav-link" href="/booksinfo">Book Information</a></li>
    </ul>
 </nav>
 

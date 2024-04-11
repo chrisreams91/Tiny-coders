@@ -9,7 +9,7 @@
 
    <!--h1 th:text="${#strings.capitalizeWords(title)}"></h1-->
 
-   <form th:action="@{/students/search/results}" method = "post">
+   <form th:action="@{/students/search/update}" method = "post">
       <h2>Search by:</h2>
 
       <p>
@@ -26,8 +26,8 @@
       </p>
 
       <p>
-         <label for="searchTerm">Keyword:</label>
-         <input type="text" name="searchTerm" id="searchTerm" />
+         <label th:for="${searchTerm}">Keyword:</label>
+         <input th:type="text" name="searchTerm" value="${searchTerm}" />
       </p>
 
       <input type="submit" value="Search" />
@@ -35,6 +35,7 @@
 
    <hr />
 
+<!--
    <table class="form-control">
       <tr th:each="student : ${students}">
          <td>
@@ -47,7 +48,8 @@
       </tr>
    </table>
 
-</div>
 
+</div>
+-->
 </body>
 </html>

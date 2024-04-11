@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.launchcode.library.controllers.ListController.columnChoices;
@@ -23,12 +24,22 @@ public class StudentController {
     @GetMapping
     public String displayAllStudents(@RequestParam(required=false) Integer studentId, Model model) {
         model.addAttribute("title", "Student Management");
+        Iterable<Student> students;
         if (studentId == null) {
-            model.addAttribute("students", studentRepository.findAll());
+            students = studentRepository.findAll();
+            model.addAttribute("students", students);
+            return "students/index";
         } else {
-            model.addAttribute("students", studentRepository.findById(studentId));
+            Optional<Student> optionalStudent = studentRepository.findById(studentId);
+            Student student = optionalStudent.get();
+    //        model.addAttribute("students1", student);
+            model.addAttribute("studentId", student.getId());
+            model.addAttribute("studentfirstname", student.getFirstname());
+            model.addAttribute("studentlastname", student.getLastname());
+            model.addAttribute("studentcontactemail", student.getContactEmail());
+    //        return "students/index";
+            return "students/update";
             }
-        return "students/index";
     }
 
 
@@ -72,19 +83,36 @@ public class StudentController {
     }
 
     @PostMapping ("update")
-    public String updateStudents(@RequestParam(required=false) Model model) {
-//        Student newStudent1 = new Student();
-//        model.addAttribute("title", "Student Management");
-//        if (studentId == null) {
-//            model.addAttribute("students", studentRepository.findAll());
-//        } else {
-//            newStudent1.setFirstname() = newStudent.getFirstname();
+    public String updateStudents(@RequestParam(required = false) Integer studentId, @RequestParam(required = false) String studentfirstname, @RequestParam(required = false) String studentlastname, @RequestParam(required = false) String studentcontactemail, Model model) {
+//    public String updateStudent (@RequestParam(required = false) Integer studentId, Model model) {
+        Iterable<Student> students;
+        if (studentId == null) {
+            students = studentRepository.findAll();
+            model.addAttribute("students", students);
+            return "students/index";
+        } else {
+           Optional<Student> optionalStudent = studentRepository.findById(studentId);
+            Student student = optionalStudent.get();
+            student.getId();
+            student.setFirstname(studentfirstname);
+            student.setLastname(studentlastname);
+            student.setContactEmail(studentcontactemail);
+            studentRepository.save(student);
+            studentId = null;
+  //                  Student newStudent1 = new Student();
+ //       model.addAttribute("title", "Student Management");
+ //       if (studentId == null) {
+ //           model.addAttribute("students", studentRepository.findAll());
+ //       } else {
+ //           newStudent1.setFirstname() = newStudent.getFirstname();
 //
-//            studentRepository.findById(studentId).gfirstname)
-//            model.addAttribute("students", studentRepository.findById(studentId));
-//        }
-        return "students/index";
+  //          studentRepository.findById(studentId).gfirstname)
+  //          model.addAttribute("students", studentRepository.findById(studentId));
+  //      }
+            return "redirect:/students";
+        }
     }
+
 //    @RequestMapping("search")
 //    public String search(Model model) {
 //        model.addAttribute("columns", columnChoices);
