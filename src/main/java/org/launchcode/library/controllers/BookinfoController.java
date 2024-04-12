@@ -3,11 +3,13 @@ package org.launchcode.library.controllers;
 import jakarta.validation.Valid;
 import org.launchcode.library.data.BookinfoRepository;
 import org.launchcode.library.models.Bookinfo;
+import org.launchcode.library.models.GoogleBooksResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("booksinfo")
@@ -56,15 +58,35 @@ public class BookinfoController {
     }
 
     @PostMapping ("delete")
-    public String processDeleteBookInfoForm(@RequestParam(required = false) int[] BookinfoIds){
-        if (BookinfoIds != null)
-        {
+    public String processDeleteBookInfoForm(@RequestParam(required = false) int[] BookinfoIds) {
+        if (BookinfoIds != null) {
             for (int id : BookinfoIds) {
                 bookinfoRepository.deleteById(id);
             }
         }
         return "redirect:/booksinfo";
+    }
 
+@RequestMapping ("search")
+public String renderBookApi (Model model) {
+        return "booksinfo/search";
+}
+
+@PostMapping ("search")
+    public String getBooks(@RequestParam(required=false) String searchTerm, Model model) {
+//    if (errors.hasErrors()) {
+//        model.addAttribute("title", "Search Again");
+//        return "booksinfo/search";
+//    }
+        RestTemplate restTemplate = new RestTemplate();
+    if (searchTerm == null) {
+        searchTerm = "Java";
+    }
+
+        String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm; // Example API URL
+        GoogleBooksResponse response = restTemplate.getForObject(apiUrl, GoogleBooksResponse.class);
+        model.addAttribute("books", response.getItems());
+        return "booksinfo/search"; // Thymeleaf template name
     }
 
 
