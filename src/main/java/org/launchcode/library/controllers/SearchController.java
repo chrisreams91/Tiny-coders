@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.launchcode.library.controllers.ListController.columnChoices;
@@ -31,26 +32,54 @@ public class SearchController {
 //
 
     @PostMapping("update")
-    public String displayStudents(@RequestParam(required = false) Integer searchTerm, Model model) {
+    public String displayStudents(@RequestParam(required = false) String searchType, String searchTerm, Model model) {
         model.addAttribute("title", "Student Management");
         Iterable<Student> students;
-        System.out.println(searchTerm);
-        if (searchTerm == null) {
+        Integer studentId = null;
+        if (searchType == null) {
             students = studentRepository.findAll();
             model.addAttribute("students", students);
             return "students/index";
-        } else {
-            Optional<Student> optionalStudent = studentRepository.findById(searchTerm);
-            Student student = optionalStudent.get();
-            //        model.addAttribute("students1", student);
-            model.addAttribute("studentId", student.getId());
-            model.addAttribute("studentfirstname", student.getFirstname());
-            model.addAttribute("studentlastname", student.getLastname());
-            model.addAttribute("studentcontactemail", student.getContactEmail());
-            //        return "students/index";
-            return "students/update";
+        } else if (searchType.equals("id")) {
+            if (searchTerm == null || searchTerm.isEmpty()) {
+                students = studentRepository.findAll();
+                model.addAttribute("students", students);
+                return "students/index";
+            } else {
+                Optional<Student> optionalStudent = studentRepository.findById(Integer.valueOf(searchTerm));
+                Student student = optionalStudent.get();
+                //        model.addAttribute("students1", student);
+                model.addAttribute("studentId", student.getId());
+                model.addAttribute("studentfirstname", student.getFirstname());
+                model.addAttribute("studentlastname", student.getLastname());
+                model.addAttribute("studentcontactemail", student.getContactEmail());
+                //        return "students/index";
+                return "students/update";
+            }
+        } else if (searchType.equals("studentfn")) {
+            students = studentRepository.findAll();
+            ArrayList<Student> searchstudent = new ArrayList<>();
+            for (Student student : students) {
+              if  (student.getFirstname().toString().toLowerCase().contains(searchTerm.toLowerCase())){
+                  searchstudent.add(student);
+                }
+            }
+            model.addAttribute("students", searchstudent);
+            return "students/index";
+        } else if (searchType.equals("studentln")) {
+            students = studentRepository.findAll();
+            ArrayList<Student> searchstudent = new ArrayList<>();
+            for (Student student : students) {
+                if  (student.getLastname().toString().toLowerCase().contains(searchTerm.toLowerCase())){
+                    searchstudent.add(student);
+                }
+            }
+            model.addAttribute("students", searchstudent);
+            return "students/index";
         }
+        return "students/update";
     }
+
 
 //    @PostMapping("results")
 //    public String processSearchStudent(Model model, @RequestParam String searchType, @RequestParam Integer searchTerm) {

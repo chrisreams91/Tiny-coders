@@ -22,8 +22,8 @@ public class ListController {
     public ListController () {
 
         columnChoices.put("id", "ID");
-  //      columnChoices.put("studentfn", "Student First Name");
-  //      columnChoices.put("studentln", "Student Last Name");
+        columnChoices.put("studentfn", "Student First Name");
+        columnChoices.put("studentln", "Student Last Name");
 
     }
 
