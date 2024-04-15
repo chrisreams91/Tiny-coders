@@ -16,10 +16,27 @@
 <body>
 <ul>
     <li th:each="book : ${books}">
+        <!--h1 th:text="${book.volumeInfo.Imagelink.thumbnail}"></h1-->
         <h2 th:text="${book.volumeInfo.title}"></h2>
-        <p th:text="${book.volumeInfo.authors}"></p>
+        <td>
+            <h6>Author Name : </h6>
+            <span th:each="author : ${book.volumeInfo.authors}">
+                <p th:text="${author}"></p>
+            </span>
+        </td>
+        <td>
+            <h6>Genre : </h6>
+            <span th:each="categories : ${book.volumeInfo.categories}">
+                <p th:text="${categories}"></p>
+            </span>
+        </td>
         <p th:text="${book.volumeInfo.description}"></p>
+        <p th:text="${book.volumeInfo.mainCategory}"></p>
+        <h6> Book Rating: </h6>
+        <p th:text="${book.volumeInfo.averageRating}"></p>
     </li>
 </ul>
 </body>
+</body>
 </html>
+

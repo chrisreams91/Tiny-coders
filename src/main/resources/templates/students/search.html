@@ -32,24 +32,9 @@
 
       <input type="submit" value="Search" />
    </form>
+<p th:text="${error}" class="error"></p>
 
    <hr />
 
-<!--
-   <table class="form-control">
-      <tr th:each="student : ${students}">
-         <td>
-            <p>
-               Student Id
-               <a th:href="@{'/search/' + ${student.id}}" th:text="${student.id}"></a>
-            </p>
-            <p th:text="${'Id: ' + student.id}"></p>
-         </td>
-      </tr>
-   </table>
-
-
-</div>
--->
 </body>
 </html>

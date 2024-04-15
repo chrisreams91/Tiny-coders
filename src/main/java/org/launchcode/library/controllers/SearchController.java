@@ -29,8 +29,6 @@ public class SearchController {
         return "students/search";
     }
 
-//
-
     @PostMapping("update")
     public String displayStudents(@RequestParam(required = false) String searchType, String searchTerm, Model model) {
         model.addAttribute("title", "Student Management");
@@ -47,21 +45,25 @@ public class SearchController {
                 return "students/index";
             } else {
                 Optional<Student> optionalStudent = studentRepository.findById(Integer.valueOf(searchTerm));
-                Student student = optionalStudent.get();
-                //        model.addAttribute("students1", student);
-                model.addAttribute("studentId", student.getId());
-                model.addAttribute("studentfirstname", student.getFirstname());
-                model.addAttribute("studentlastname", student.getLastname());
-                model.addAttribute("studentcontactemail", student.getContactEmail());
-                //        return "students/index";
-                return "students/update";
+                if (optionalStudent.isPresent()) {
+                    Student student = optionalStudent.get();
+                    model.addAttribute("studentId", student.getId());
+                    model.addAttribute("studentfirstname", student.getFirstname());
+                    model.addAttribute("studentlastname", student.getLastname());
+                    model.addAttribute("studentcontactemail", student.getContactEmail());
+                    return "students/update";
+                } else {
+                    model.addAttribute("error","Id "+ searchTerm + " not found");
+                    model.addAttribute("columns", columnChoices);
+                    return "students/search";
+                }
             }
         } else if (searchType.equals("studentfn")) {
             students = studentRepository.findAll();
             ArrayList<Student> searchstudent = new ArrayList<>();
             for (Student student : students) {
-              if  (student.getFirstname().toString().toLowerCase().contains(searchTerm.toLowerCase())){
-                  searchstudent.add(student);
+                if (student.getFirstname().toString().toLowerCase().contains(searchTerm.toLowerCase())) {
+                    searchstudent.add(student);
                 }
             }
             model.addAttribute("students", searchstudent);
@@ -70,7 +72,7 @@ public class SearchController {
             students = studentRepository.findAll();
             ArrayList<Student> searchstudent = new ArrayList<>();
             for (Student student : students) {
-                if  (student.getLastname().toString().toLowerCase().contains(searchTerm.toLowerCase())){
+                if (student.getLastname().toString().toLowerCase().contains(searchTerm.toLowerCase())) {
                     searchstudent.add(student);
                 }
             }
@@ -79,18 +81,5 @@ public class SearchController {
         }
         return "students/update";
     }
-
-
-//    @PostMapping("results")
-//    public String processSearchStudent(Model model, @RequestParam String searchType, @RequestParam Integer searchTerm) {
-//        Optional<Student> students;
-//        if (searchTerm != null) {
-//            model.addAttribute("title", "Search Student");
-//            students = studentRepository.findById(searchTerm);
-//            model.addAttribute("Students", students);
-//        }
-//        return "students/update";
-//    }
-
 
 }

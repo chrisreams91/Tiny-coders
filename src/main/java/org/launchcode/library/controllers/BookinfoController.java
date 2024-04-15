@@ -3,6 +3,7 @@ package org.launchcode.library.controllers;
 import jakarta.validation.Valid;
 import org.launchcode.library.data.BookinfoRepository;
 import org.launchcode.library.models.Bookinfo;
+import org.launchcode.library.models.GoogleBookItem;
 import org.launchcode.library.models.GoogleBooksResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("booksinfo")
@@ -85,7 +88,12 @@ public String renderBookApi (Model model) {
 
         String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=" + searchTerm; // Example API URL
         GoogleBooksResponse response = restTemplate.getForObject(apiUrl, GoogleBooksResponse.class);
+        GoogleBookItem[] answer;
+        answer = response.getItems();
+        answer[0].getVolumeInfo().getAuthors();
+        answer[0].getVolumeInfo().getImagelinks();
         model.addAttribute("books", response.getItems());
+      //  model.addAttribute("author", response.volumeInfo.author)
         return "booksinfo/search"; // Thymeleaf template name
     }
 
