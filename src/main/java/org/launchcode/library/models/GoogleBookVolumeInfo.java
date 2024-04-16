@@ -5,12 +5,33 @@ public class GoogleBookVolumeInfo {
         private String[] authors;
         private String description;
         private String mainCategory;
-        private Object imagelinks;
+        private ImageLinks imagelinks;
         private String[] categories;
         private Double averageRating;
 
+    public static class ImageLinks {
+        private String smallThumbnail;
+        private String thumbnail;
 
-    public GoogleBookVolumeInfo(String title, String[] authors, String description, String mainCategory, Imagelink imagelinks, Double averageRating, String[] categories) {
+        public String getSmallThumbnail() {
+            return smallThumbnail;
+        }
+
+        public String getThumbnail() {
+            return thumbnail;
+        }
+
+        public void setThumbnail(String thumbnail) {
+            this.thumbnail = thumbnail;
+        }
+
+        public void setSmallThumbnail(String smallThumbnail) {
+            this.smallThumbnail = smallThumbnail;
+        }
+    }
+
+
+    public GoogleBookVolumeInfo(String title, String[] authors, String description, String mainCategory, ImageLinks imagelinks, Double averageRating, String[] categories) {
         this.title = title;
         this.authors = authors;
         this.description = description;
@@ -53,11 +74,11 @@ public class GoogleBookVolumeInfo {
         this.mainCategory = mainCategory;
     }
 
-    public Object getImagelinks() {
+    public ImageLinks getImagelinks() {
         return imagelinks;
     }
 
-    public void setImagelinks(Object imagelinks) {
+    public void setImagelinks(ImageLinks imagelinks) {
         this.imagelinks = imagelinks;
     }
 

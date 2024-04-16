@@ -99,27 +99,11 @@ public class StudentController {
             student.setContactEmail(studentcontactemail);
             studentRepository.save(student);
             studentId = null;
-  //                  Student newStudent1 = new Student();
- //       model.addAttribute("title", "Student Management");
- //       if (studentId == null) {
- //           model.addAttribute("students", studentRepository.findAll());
- //       } else {
- //           newStudent1.setFirstname() = newStudent.getFirstname();
-//
-  //          studentRepository.findById(studentId).gfirstname)
-  //          model.addAttribute("students", studentRepository.findById(studentId));
-  //      }
+
             return "redirect:/students";
         }
     }
 
-//    @RequestMapping("search")
-//    public String search(Model model) {
-//        model.addAttribute("columns", columnChoices);
-////        model.addAttribute("title", "Search Student");
-////        model.addAttribute("Students", studentRepository.findAll());
-//        return "search";
-//    }
     @PostMapping ("add/view")
     public String processViewStudent(@RequestParam(required = false) int[] studentId, Model model){
         if (studentId != null)
